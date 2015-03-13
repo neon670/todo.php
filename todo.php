@@ -14,7 +14,7 @@ do {
     }
  
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (Q)uit, S(ort): ';
+    echo '(N)ew item, (R)emove item, (Q)uit, (S)ort: ';
  
     // Get the input from user
     // Use trim() to remove whitespace and newlines
@@ -24,14 +24,16 @@ do {
     if ($input == 'N') {
         // Ask for entry
         echo 'Enter item: ';
+        $newItem = trim(fgets(STDIN));
         // Add entry to list array
-        $nlist[] = trim(fgets(STDIN));
-        echo 'begin or end' ;
+        echo 'Add item to (B)eginning or (E)nd: ' ;
+
         $answer = trim(fgets(STDIN));
-    if  ($answer == 'B'){
-        array_unshift($items,$nlist);
-    } else ($answer = 'E' ){
-            array_push($item,$nlist);
+
+        if  ($answer == 'B'){
+            array_unshift($items,$newItem);
+        } elseif ($answer == 'E' || $answer == ' '){
+            array_push($items,$newItem);
         }
 
     } elseif ($input == 'R') {
@@ -42,10 +44,18 @@ do {
         // Remove from array
         unset($items[$key]);
     } elseif ($input == 'S') {
-        echo '($item');
-    } elseif ($input == 'F'){
-        $first_item = array_shift($item);
-        echo 'sort ';
+        echo "Sort (A)-Z, sort (Z)-A, (O)rder by Order added, (R)everse order added. ";
+        $orderBy = trim(fgets(STDIN));
+        if ($orderBy == 'A'){
+            asort($items);
+        } elseif ($orderBy == 'Z'){
+            arsort($items);
+        } elseif ($orderBy == 'O'){
+            ksort($items);
+        } elseif ($orderBy == 'R'){
+            krsort($items);
+        }
+
     }
     
 // Exit when input is (Q)uit
